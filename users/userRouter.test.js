@@ -55,25 +55,22 @@ describe('user router', () => {
 
         })
     })
-    describe('DELETE /users', () => {
-        it('should return a 404 http status code with bad user id', () => {
+    describe("DELETE /users/:id", () => {
+        it("should return status 200", () => {
             return supertest(server)
-                .delete('users/:id')
-                .send({id:1})
-                .set('Accept', 'application/json')
-                .then(res => {
-                    expect(res.status).toEqual(404);
-                })
-        })
-        it('should return a 200 http status code valid user id', () => {
-            return supertest(server)
-                .delete('users/:id')
-                .send({ id: 2 })
-                .set('Accept', 'application/json')
-                .then(res => {
+                .delete("/users/1")
+                .then((res) => {
                     expect(res.status).toBe(200);
-                })
-        })
-
-    })
+                });
+        });
+        it("should return status 404 with bad id", () => {
+            return supertest(server)
+                .delete("/users/111")
+                .then((res) => {
+                    expect(res.status).toBe(404);
+                });
+        });
+    });
+    
 })
+
